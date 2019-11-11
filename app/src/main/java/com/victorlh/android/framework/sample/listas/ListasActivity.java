@@ -15,6 +15,7 @@ import com.victorlh.android.framework.listas.IEventosListas;
 import com.victorlh.android.framework.listas.ItemLista;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.R;
+import com.victorlh.android.framework.sample.listas.shimmer_minimo.ListaShimmerMinimoActivity;
 import com.victorlh.android.framework.sample.listas.simple.ListaSimpleActivity;
 
 public class ListasActivity extends AppCompatActivity {
@@ -65,7 +66,8 @@ public class ListasActivity extends AppCompatActivity {
 
 	private enum ItemListas implements ItemLista {
 
-		LISTA_SIMPLE(ListaSimpleActivity.class, R.string.titulo_lista_simple);
+		LISTA_SIMPLE(ListaSimpleActivity.class, R.string.titulo_lista_simple),
+		LISTA_SHIMMER_MINIMO(ListaShimmerMinimoActivity.class, R.string.titulo_lista_shimmer_minimo);
 
 		public final Class<? extends AppCompatActivity> aClass;
 		@StringRes

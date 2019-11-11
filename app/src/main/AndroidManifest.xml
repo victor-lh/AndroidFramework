@@ -23,6 +23,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".listas.ListasActivity" />
+		<activity android:name=".listas.shimmer_minimo.ListaShimmerMinimoActivity" />
 	</application>
 
 </manifest>
