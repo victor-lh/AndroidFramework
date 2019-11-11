@@ -5,4 +5,5 @@
 	<string name="titulo_listas">Listas</string>
 	<string name="titulo_lista_simple">Lista simple</string>
 	<string name="titulo_lista_shimmer_minimo">Lista con shimmer y minimo de elementos</string>
+	<string name="texto_void">VOID</string>
 </resources>
