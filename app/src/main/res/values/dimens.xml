@@ -1,0 +1,4 @@
+<resources>
+	<dimen name="item_main_height">75dp</dimen>
+	<dimen name="margin_floating_btn">10dp</dimen>
+</resources>
