@@ -3,16 +3,15 @@ package com.victorlh.android.framework.sample.listas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.button.MaterialButton;
-import com.victorlh.android.framework.listas.AbstractLista;
-import com.victorlh.android.framework.listas.AbstractViewHolder;
-import com.victorlh.android.framework.listas.IEventosListas;
 import com.victorlh.android.framework.listas.ItemLista;
+import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
+import com.victorlh.android.framework.listas.adapter.ListaAdapter;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.R;
 import com.victorlh.android.framework.sample.listas.shimmer_minimo.ListaShimmerMinimoActivity;
@@ -35,7 +34,7 @@ public class ListasActivity extends AppCompatActivity {
 		lista.setLista(ItemListas.values());
 		listaView.setAdapter(lista);
 
-		lista.setOnClickElementoListener(new IEventosListas.OnClickElementoListener<ItemListas>() {
+		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemListas>() {
 			@Override
 			public void onClickElemento(AbstractViewHolder<ItemListas> viewHolder) {
 				ItemListas item = viewHolder.getItem();
@@ -45,19 +44,19 @@ public class ListasActivity extends AppCompatActivity {
 		});
 	}
 
-	private static final class Lista extends AbstractLista<ItemListas> {
+	private static final class Lista extends ListaAdapter<ItemListas> {
 
 		private Lista() {
-			super(R.layout.item_boton, ItemListas.class);
+			super(ItemListas.class);
 		}
 
 		@Override
 		protected AbstractViewHolder<ItemListas> createViewHolder(View view) {
-			return new AbstractViewHolder<ItemListas>(view) {
+			return new AbstractViewHolder<ItemListas>(view, R.layout.item_boton) {
 				@Override
 				protected void onProcesar() {
 					ItemListas item = getItem();
-					MaterialButton btnItem = itemView.findViewById(R.id.btnItem);
+					TextView btnItem = itemView.findViewById(R.id.btnItem);
 					btnItem.setText(item.titulo);
 				}
 			};

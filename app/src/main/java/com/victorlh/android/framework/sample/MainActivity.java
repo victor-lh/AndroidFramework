@@ -3,16 +3,15 @@ package com.victorlh.android.framework.sample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.button.MaterialButton;
-import com.victorlh.android.framework.listas.AbstractLista;
-import com.victorlh.android.framework.listas.AbstractViewHolder;
-import com.victorlh.android.framework.listas.IEventosListas;
 import com.victorlh.android.framework.listas.ItemLista;
+import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
+import com.victorlh.android.framework.listas.adapter.ListaAdapter;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.listas.ListasActivity;
 
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 		lista.setLista(ItemMain.values());
 		listaView.setAdapter(lista);
 
-		lista.setOnClickElementoListener(new IEventosListas.OnClickElementoListener<ItemMain>() {
+		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemMain>() {
 			@Override
 			public void onClickElemento(AbstractViewHolder<ItemMain> viewHolder) {
 				ItemMain item = viewHolder.getItem();
@@ -43,19 +42,19 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
-	private static final class MainLista extends AbstractLista<ItemMain> {
+	private static final class MainLista extends ListaAdapter<ItemMain> {
 
 		private MainLista() {
-			super(R.layout.item_boton, ItemMain.class);
+			super(ItemMain.class);
 		}
 
 		@Override
 		protected AbstractViewHolder<ItemMain> createViewHolder(View view) {
-			return new AbstractViewHolder<ItemMain>(view) {
+			return new AbstractViewHolder<ItemMain>(view, R.layout.item_boton) {
 				@Override
 				protected void onProcesar() {
 					ItemMain item = getItem();
-					MaterialButton btnItem = itemView.findViewById(R.id.btnItem);
+					TextView btnItem = itemView.findViewById(R.id.btnItem);
 					btnItem.setText(item.titulo);
 				}
 			};

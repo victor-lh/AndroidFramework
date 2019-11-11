@@ -10,36 +10,38 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
-import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
-import com.victorlh.android.framework.listas.AbstractLista;
-import com.victorlh.android.framework.listas.IEventosListas;
 import com.victorlh.android.framework.listas.R;
+import com.victorlh.android.framework.listas.adapter.ListaAdapter;
 import com.victorlh.android.framework.listas.view.shimmer.ShimmerListView;
 
 /**
  * @author Victor
  * 26/12/2018
  */
-public class ListaView extends LinearLayout implements IEventosListas.OnDataListChangeListener {
+public class ListaView extends LinearLayout {
 
 	private RecyclerView lista;
 	private ShimmerListView listaShimmer;
 	private ViewGroup lyListaVacia;
+	private ImageView ivEmpty;
+	private TextView tvEmpty;
 
 	private RecyclerView.Adapter adapter;
 	private RecyclerView.LayoutManager layoutManager;
 
 	private boolean hasShimmer;
+
+	private int voidItemCount;
+
 
 	public ListaView(Context context) {
 		super(context);
@@ -63,26 +65,30 @@ public class ListaView extends LinearLayout implements IEventosListas.OnDataList
 		this.listaShimmer = view.findViewById(R.id.listaRFShimmer);
 		lista.setNestedScrollingEnabled(false);
 		this.lyListaVacia = view.findViewById(R.id.listaRfLyVacia);
-
-		ImageView imagen = view.findViewById(R.id.listaRFImagenVacia);
-		TextView texto = view.findViewById(R.id.listaRFTextoVacia);
+		ivEmpty = view.findViewById(R.id.listaRFImagenVacia);
+		tvEmpty = view.findViewById(R.id.listaRFTextoVacia);
 
 		if (attrs != null) {
 			TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ListaView);
 			String textoListaVacia = typedArray.getString(R.styleable.ListaView_textoListaVacia);
 			Drawable imagenListaVacia = typedArray.getDrawable(R.styleable.ListaView_imagenListaVacia);
+			this.voidItemCount = typedArray.getInteger(R.styleable.ListaView_voidItemCount, 0);
 
-			texto.setText(textoListaVacia);
-			imagen.setImageDrawable(imagenListaVacia);
-
-
-			hasShimmer = typedArray.getBoolean(R.styleable.ListaView_hasShimmer, false);
+			this.hasShimmer = typedArray.getBoolean(R.styleable.ListaView_hasShimmer, false);
 			int numShimmer = typedArray.getInteger(R.styleable.ListaView_numShimmers, 8);
 			int layoutShimmerId = typedArray.getResourceId(R.styleable.ListaView_layoutShimmer, 0);
-			listaShimmer.setItemCount(numShimmer);
-			listaShimmer.setLyShimmer(layoutShimmerId);
 
 			typedArray.recycle();
+
+			if (hasShimmer && layoutShimmerId == 0) {
+				throw new IllegalStateException("'layoutShimmer' obligatorio si el shimmer esta activado");
+			}
+
+			setTextoEmpty(textoListaVacia);
+			setImagenEmpty(imagenListaVacia);
+
+			setShimmerCount(numShimmer);
+			setLayoutShimmerId(layoutShimmerId);
 		}
 	}
 
@@ -97,54 +103,36 @@ public class ListaView extends LinearLayout implements IEventosListas.OnDataList
 	}
 
 	public void setAdapter(@NonNull RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager) {
-		setAdapter(adapter, layoutManager, null, null, null);
+		setAdapter(adapter, layoutManager, null);
 	}
 
-	public void setAdapterDraggable(@NonNull RecyclerView.Adapter adapter) {
-		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-		RecyclerViewDragDropManager dragDropManager = new RecyclerViewDragDropManager();
-		DraggableItemAnimator draggableItemAnimator = new DraggableItemAnimator();
-		setAdapter(adapter, layoutManager, null, dragDropManager, draggableItemAnimator);
-	}
-
-	protected void setAdapter(@NonNull RecyclerView.Adapter adapter, @NonNull RecyclerView.LayoutManager layoutManager, RecyclerViewExpandableItemManager manager, RecyclerViewDragDropManager dragDropManager, SimpleItemAnimator animator) {
+	public void setAdapter(@NonNull RecyclerView.Adapter adapter, @NonNull RecyclerView.LayoutManager layoutManager, RecyclerView.ItemAnimator animator) {
 		this.adapter = adapter;
 		this.layoutManager = layoutManager;
 
-		if (adapter instanceof AbstractLista) {
-			((AbstractLista) adapter).setOnDataListChangeListener(this);
-		}
-
-		if (manager != null) {
-			adapter = manager.createWrappedAdapter(adapter);
-		}
-
-		if (dragDropManager != null) {
-			adapter = dragDropManager.createWrappedAdapter(adapter);
-			dragDropManager.setCheckCanDropEnabled(false);
+		if (adapter instanceof ListaAdapter) {
+			((ListaAdapter) adapter).setOnDataListChangeListener(new ListaOnDataChangeAdapter());
 		}
 
 		if (animator == null) {
 			animator = new RefactoredDefaultItemAnimator();
 		}
-		animator.setSupportsChangeAnimations(false);
+
+		if (voidItemCount > 0) {
+			ListaMinElementosManager listaMinElementosManager = new ListaMinElementosManager(voidItemCount);
+			adapter = listaMinElementosManager.wrapAdapter(adapter);
+		}
 
 		lista.setLayoutManager(layoutManager);
 		lista.setAdapter(adapter);
 		lista.setItemAnimator(animator);
 		lista.setHasFixedSize(false);
 
-		if (dragDropManager != null) {
-			dragDropManager.attachRecyclerView(lista);
-		}
-		if (manager != null) {
-			manager.attachRecyclerView(lista);
-		}
 		loadListaEmpty();
 	}
 
 	private void loadListaEmpty() {
-		if (getListCount() <= 0) {
+		if (isEmpty()) {
 			lista.setVisibility(GONE);
 			listaShimmer.setVisibility(GONE);
 			lyListaVacia.setVisibility(VISIBLE);
@@ -178,26 +166,58 @@ public class ListaView extends LinearLayout implements IEventosListas.OnDataList
 		loadListaEmpty();
 	}
 
-	protected int getListCount() {
-		return adapter == null ? 0 : adapter.getItemCount();
+	protected boolean isEmpty() {
+		RecyclerView.Adapter adapter = lista.getAdapter();
+		return adapter == null || adapter.getItemCount() <= 0;
+	}
+
+	public void setTextoEmpty(String textoEmpty) {
+		tvEmpty.setText(textoEmpty);
+	}
+
+	public void setTextoEmpty(@StringRes int textoEmpty) {
+		tvEmpty.setText(textoEmpty);
+	}
+
+	public void setImagenEmpty(@DrawableRes int imagenEmpty) {
+		ivEmpty.setImageResource(imagenEmpty);
+	}
+
+	public void setImagenEmpty(Drawable imagenEmpty) {
+		ivEmpty.setImageDrawable(imagenEmpty);
+	}
+
+	public void setVoidItemCount(int voidItemCount) {
+		this.voidItemCount = voidItemCount;
+	}
+
+	public void setHasShimmer(boolean hasShimmer) {
+		this.hasShimmer = hasShimmer;
+	}
+
+	public void setShimmerCount(int shimmerCount) {
+		listaShimmer.setItemCount(shimmerCount);
 	}
 
 	public void setLayoutShimmerId(@LayoutRes int layoutShimmerId) {
 		listaShimmer.setLyShimmer(layoutShimmerId);
 	}
 
-	@Override
-	public void onSetData() {
-		stopShimmer();
-	}
+	private final class ListaOnDataChangeAdapter implements ListaAdapter.OnDataListChangeListener {
 
-	@Override
-	public void onVoidData() {
-		stopShimmer();
-	}
+		@Override
+		public void onSetData() {
+			stopShimmer();
+		}
 
-	@Override
-	public void onChangeData() {
-		stopShimmer();
+		@Override
+		public void onVoidData() {
+			stopShimmer();
+		}
+
+		@Override
+		public void onChangeData() {
+			stopShimmer();
+		}
 	}
 }

@@ -3,14 +3,14 @@ package com.victorlh.android.framework.sample.listas.simple;
 import android.view.View;
 import android.widget.TextView;
 
-import com.victorlh.android.framework.listas.AbstractViewHolder;
+import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
 import com.victorlh.android.framework.sample.R;
 import com.victorlh.tools.Transform;
 
 public class ViewHolderListaSimple extends AbstractViewHolder<ItemListaSimple> {
 
 	public ViewHolderListaSimple(View itemView) {
-		super(itemView);
+		super(itemView, R.layout.item_lista_simple);
 	}
 
 	@Override

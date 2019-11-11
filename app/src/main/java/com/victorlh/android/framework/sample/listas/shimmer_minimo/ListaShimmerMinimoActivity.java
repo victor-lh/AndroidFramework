@@ -2,9 +2,12 @@ package com.victorlh.android.framework.sample.listas.shimmer_minimo;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
+import com.victorlh.android.framework.listas.adapter.ListaAdapter;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.R;
 
@@ -23,6 +26,14 @@ public class ListaShimmerMinimoActivity extends AppCompatActivity {
 		ListaView listaView = findViewById(android.R.id.list);
 		lista = new ListaShimmerMinimoAdapter();
 		listaView.setAdapter(lista);
+
+		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemListaShimmerMinimo>() {
+			@Override
+			public void onClickElemento(AbstractViewHolder<ItemListaShimmerMinimo> viewHolder) {
+				Toast.makeText(ListaShimmerMinimoActivity.this, "Elemento: " + viewHolder.getItem().getNumber(), Toast.LENGTH_SHORT).show();
+			}
+		});
+
 		listaView.startShimmer();
 		loadInitData();
 	}

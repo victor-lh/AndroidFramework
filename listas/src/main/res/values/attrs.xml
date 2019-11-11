@@ -4,6 +4,8 @@
 	<declare-styleable name="ListaView">
 		<attr name="textoListaVacia" format="string" />
 		<attr name="imagenListaVacia" format="reference" />
+		<attr name="voidItemCount" format="integer" />
+
 		<attr name="hasShimmer" format="boolean" />
 		<attr name="numShimmers" format="integer" />
 		<attr name="layoutShimmer" format="reference" />
