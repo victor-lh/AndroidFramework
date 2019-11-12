@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/victor-lh/AndroidFramework'
     gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'victor-lh'
     developerName = 'VictorLH'
