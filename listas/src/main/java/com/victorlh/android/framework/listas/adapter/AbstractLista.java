@@ -78,6 +78,7 @@ public abstract class AbstractLista<T extends ItemLista> extends RecyclerView.Ad
 		final T item = getItem(position);
 		viewHolders.put(item, holder);
 		holder.procesar(item);
+		observableAdapter.onBindViewHolder(holder, position);
 	}
 
 	@Override

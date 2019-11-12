@@ -77,19 +77,20 @@ class ListaMinElementosManager {
 		}
 
 		public void onItemRangeChanged(int positionStart, int itemCount) {
-			adapter.notifyDataSetChanged();
+			adapter.notifyItemRangeChanged(positionStart, itemCount);
 		}
 
 		public void onItemRangeInserted(int positionStart, int itemCount) {
-			adapter.notifyDataSetChanged();
+			adapter.notifyItemRangeRemoved(adapter.getItemCount() - 1, 1);
+			adapter.notifyItemRangeInserted(positionStart, itemCount);
 		}
 
 		public void onItemRangeRemoved(int positionStart, int itemCount) {
-			adapter.notifyDataSetChanged();
+			adapter.notifyItemRangeRemoved(positionStart, itemCount);
 		}
 
 		public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-			adapter.notifyDataSetChanged();
+			adapter.notifyItemMoved(fromPosition, toPosition);
 		}
 	}
 }

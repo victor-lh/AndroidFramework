@@ -1,21 +1,36 @@
 package com.victorlh.android.framework.sample.listas.shimmer_minimo;
 
 import com.victorlh.android.framework.listas.ItemLista;
+import com.victorlh.tools.ordenacion.ElementoOrdenado;
+import com.victorlh.tools.ordenacion.KeyOrdenacion;
+import com.victorlh.tools.ordenacion.datoordenacion.DatoOrdenacion;
+import com.victorlh.tools.ordenacion.datoordenacion.DatoOrdenacionString;
 
-public class ItemListaShimmerMinimo implements ItemLista {
+public class ItemListaShimmerMinimo implements ItemLista, ElementoOrdenado {
 
-	private final long number;
-
-	public ItemListaShimmerMinimo(long number) {
-		this.number = number;
+	public enum Ordenacion implements KeyOrdenacion {
+		A
 	}
 
-	public long getNumber() {
-		return number;
+	private final long number;
+	private final String text;
+
+	public ItemListaShimmerMinimo(long number, String text) {
+		this.number = number;
+		this.text = text;
+	}
+
+	public String getText() {
+		return text;
 	}
 
 	@Override
 	public long getId() {
-		return getNumber();
+		return number;
+	}
+
+	@Override
+	public DatoOrdenacion getDatoOrdenacion(KeyOrdenacion keyOrdenacion) {
+		return new DatoOrdenacionString(getText());
 	}
 }

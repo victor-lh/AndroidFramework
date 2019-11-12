@@ -1,5 +1,7 @@
 package com.victorlh.android.framework.listas.adapter;
 
+import androidx.annotation.NonNull;
+
 import com.victorlh.android.framework.listas.ItemLista;
 
 import java.util.ArrayList;
@@ -53,6 +55,13 @@ class ListaObservableAdapter<T extends ItemLista> extends ListaObservable<T> {
 		for (int i = lista.size() - 1; i >= 0; i--) {
 			ListaObservable<T> observable = lista.get(i);
 			observable.onLongClickElemento(viewHolder);
+		}
+	}
+
+	protected void onBindViewHolder(@NonNull final AbstractViewHolder<T> holder, int position) {
+		for (int i = lista.size() - 1; i >= 0; i--) {
+			ListaObservable<T> observable = lista.get(i);
+			observable.onBindViewHolder(holder, position);
 		}
 	}
 }

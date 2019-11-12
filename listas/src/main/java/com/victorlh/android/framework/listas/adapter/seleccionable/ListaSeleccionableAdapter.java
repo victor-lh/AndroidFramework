@@ -1,5 +1,7 @@
 package com.victorlh.android.framework.listas.adapter.seleccionable;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.victorlh.android.framework.listas.ItemLista;
@@ -83,6 +85,7 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 
 	@Override
 	public void removeSeleccion(@NonNull T item) {
+		Log.d("AAAAAA", "Remove seleccion");
 		checkAttached();
 		seleccion.remove(item);
 		AbstractViewHolder<T> viewHolder = listaAdapter.getViewHolder(item);
@@ -255,6 +258,13 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 			if (isSeleccionado(item)) {
 				removeSeleccion(item);
 			}
+		}
+
+		@Override
+		protected void onBindViewHolder(@NonNull AbstractViewHolder<T> holder, int position) {
+			T item = listaAdapter.getItem(position);
+			boolean seleccionado = isSeleccionado(item);
+			holder.setSeleccion(seleccionado);
 		}
 	}
 }

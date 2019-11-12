@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
 import com.victorlh.android.framework.sample.R;
-import com.victorlh.tools.Transform;
 
 public class ViewHolderListaShimmerMinimo extends AbstractViewHolder<ItemListaShimmerMinimo> {
 
@@ -21,7 +20,7 @@ public class ViewHolderListaShimmerMinimo extends AbstractViewHolder<ItemListaSh
 		ItemListaShimmerMinimo item = getItem();
 
 		TextView tvLista = itemView.findViewById(R.id.tvLista);
-		tvLista.setText(Transform.toString(item.getNumber()));
+		tvLista.setText(item.getText());
 	}
 
 	@Override

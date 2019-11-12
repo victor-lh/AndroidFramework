@@ -1,5 +1,7 @@
 package com.victorlh.android.framework.listas.adapter;
 
+import androidx.annotation.NonNull;
+
 import com.victorlh.android.framework.listas.ItemLista;
 
 public abstract class ListaObservable<T extends ItemLista> {
@@ -17,5 +19,8 @@ public abstract class ListaObservable<T extends ItemLista> {
 	}
 
 	protected void onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+	}
+
+	protected void onBindViewHolder(@NonNull final AbstractViewHolder<T> holder, int position) {
 	}
 }

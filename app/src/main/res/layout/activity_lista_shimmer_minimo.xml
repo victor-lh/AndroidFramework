@@ -13,7 +13,8 @@
 		app:hasShimmer="true"
 		app:layoutShimmer="@layout/item_shimmer"
 		app:numShimmers="5"
-		app:textoListaVacia="asdasd"/>
+		app:textoListaVacia="asdasd"
+		app:voidItemCount="5" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id="@+id/btnAdd"
