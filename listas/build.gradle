@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/victor-lh/AndroidFramework'
     gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'victor-lh'
     developerName = 'VictorLH'
@@ -53,8 +53,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api project(":core")
-    api 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
-    api 'com.facebook.shimmer:shimmer:0.4.0' //Shimmer carga de elementos
+    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+    implementation 'com.facebook.shimmer:shimmer:0.4.0' //Shimmer carga de elementos
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
