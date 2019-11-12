@@ -80,10 +80,6 @@ public class ListaView extends LinearLayout {
 
 			typedArray.recycle();
 
-			if (hasShimmer && layoutShimmerId == 0) {
-				throw new IllegalStateException("'layoutShimmer' obligatorio si el shimmer esta activado");
-			}
-
 			setTextoEmpty(textoListaVacia);
 			setImagenEmpty(imagenListaVacia);
 
