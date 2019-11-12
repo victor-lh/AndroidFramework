@@ -23,12 +23,12 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 	@LayoutRes
 	private final int layoutItemVoid;
 
-	private ListaAdapter<T> lista;
+	private AbstractLista<T> lista;
 
 	private T item;
 	private boolean isSeleccionado;
 
-	private ListaAdapter.OnClickListaAdapter onClickListaAdapter;
+	private AbstractLista.OnClickListaAdapter onClickListaAdapter;
 
 	public AbstractViewHolder(View itemView, int layoutItem) {
 		this(itemView, layoutItem, 0);
@@ -40,8 +40,8 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 		this.layoutItemVoid = layoutItemVoid;
 	}
 
-	final void setLista(ListaAdapter<T> listaAdapter) {
-		this.lista = listaAdapter;
+	final void setLista(AbstractLista<T> abstractLista) {
+		this.lista = abstractLista;
 	}
 
 	public final void procesar(@NonNull T item) {
@@ -83,7 +83,7 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 		}
 	}
 
-	public T getItem() {
+	public final T getItem() {
 		return item;
 	}
 
@@ -93,7 +93,7 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 
 	protected abstract void onProcesar();
 
-	final void setSeleccion(boolean isSeleccionado) {
+	public final void setSeleccion(boolean isSeleccionado) {
 		this.isSeleccionado = isSeleccionado;
 		if (isSeleccionado) {
 			onSelect();
@@ -113,7 +113,7 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 		lista.notifyItemChanged(itemPosition);
 	}
 
-	protected ListaAdapter<T> getLista() {
+	protected AbstractLista<T> getLista() {
 		return lista;
 	}
 
@@ -121,7 +121,7 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 		return lista.getItemPosition(getItem());
 	}
 
-	void setOnClickListaAdapter(ListaAdapter.OnClickListaAdapter onClickListaAdapter) {
+	void setOnClickListaAdapter(AbstractLista.OnClickListaAdapter onClickListaAdapter) {
 		this.onClickListaAdapter = onClickListaAdapter;
 	}
 }

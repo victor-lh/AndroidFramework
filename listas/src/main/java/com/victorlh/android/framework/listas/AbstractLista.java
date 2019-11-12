@@ -24,7 +24,7 @@ import java.util.List;
  * Created by victor on 07/07/2017.
  *
  * @param <T>
- * @deprecated User {@link com.victorlh.android.framework.listas.adapter.ListaAdapter}
+ * @deprecated User {@link com.victorlh.android.framework.listas.adapter.AbstractLista}
  */
 @Deprecated()
 public abstract class AbstractLista<T extends ItemLista> extends RecyclerView.Adapter<AbstractViewHolder<T>> {

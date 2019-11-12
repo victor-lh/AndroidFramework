@@ -3,13 +3,12 @@ package com.victorlh.android.framework.sample.listas.shimmer_minimo;
 import android.view.View;
 
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
-import com.victorlh.android.framework.sample.R;
+import com.victorlh.android.framework.listas.adapter.seleccionable.AbstractListaSeleccionable;
 
-public class ListaShimmerMinimoAdapter extends ListaAdapter<ItemListaShimmerMinimo> {
+public class AbstractListaShimmerMinimo extends AbstractListaSeleccionable<ItemListaShimmerMinimo> {
 
-	ListaShimmerMinimoAdapter() {
-		super(ItemListaShimmerMinimo.class);
+	AbstractListaShimmerMinimo() {
+		super(ItemListaShimmerMinimo.class, ETipoSeleccion.LONGCLICK);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.victorlh.android.framework.listas.ItemLista;
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
+import com.victorlh.android.framework.listas.adapter.AbstractLista;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.listas.ListasActivity;
 
@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
 	private void initLista() {
 		ListaView listaView = findViewById(android.R.id.list);
-		MainLista lista = new MainLista();
+		MainAbstractLista lista = new MainAbstractLista();
 		lista.setLista(ItemMain.values());
 		listaView.setAdapter(lista);
 
-		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemMain>() {
+		lista.setOnClickElementoListener(new AbstractLista.OnClickElementoListener<ItemMain>() {
 			@Override
 			public void onClickElemento(AbstractViewHolder<ItemMain> viewHolder) {
 				ItemMain item = viewHolder.getItem();
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
-	private static final class MainLista extends ListaAdapter<ItemMain> {
+	private static final class MainAbstractLista extends AbstractLista<ItemMain> {
 
-		private MainLista() {
+		private MainAbstractLista() {
 			super(ItemMain.class);
 		}
 

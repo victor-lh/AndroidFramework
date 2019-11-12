@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by victor on 07/07/2017.
  */
-public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Adapter<AbstractViewHolder<T>> {
+public abstract class AbstractLista<T extends ItemLista> extends RecyclerView.Adapter<AbstractViewHolder<T>> implements Lista<T> {
 
 	private Class<T> clazz;
 
@@ -38,11 +38,15 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 
 	private KeyOrdenacion keyOrdenacion;
 
-	protected ListaAdapter(Class<T> clazz) {
+	private ListaObservableAdapter<T> observableAdapter;
+
+	protected AbstractLista(Class<T> clazz) {
 		this.clazz = clazz;
 
 		this.lista = new ArrayList<>();
 		this.viewHolders = new HashMap<>();
+
+		this.observableAdapter = new ListaObservableAdapter<>();
 	}
 
 	public void setKeyOrdenacion(KeyOrdenacion keyOrdenacion) {
@@ -82,10 +86,12 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		return item == null ? super.getItemId(position) : item.getId();
 	}
 
+	@Override
 	public List<T> getLista() {
 		return new ArrayList<>(lista);
 	}
 
+	@Override
 	public T getItem(int position) {
 		if (position < 0 || position > getItemCount()) {
 			return null;
@@ -98,10 +104,12 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		return lista.size();
 	}
 
+	@Override
 	public int getItemPosition(T item) {
 		return getItemPosition(item, false);
 	}
 
+	@Override
 	public int getItemPosition(T item, boolean byId) {
 		int i = lista.indexOf(item);
 		if (i == -1 && byId) {
@@ -114,6 +122,7 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		return i;
 	}
 
+	@Override
 	public T getItemById(long id) {
 		for (T item : lista) {
 			if (item.getId() == id) {
@@ -123,11 +132,13 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		return null;
 	}
 
+	@Override
 	public void setLista(T[] lista) {
 		List<T> ts = Arrays.asList(lista);
 		setLista(ts);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void setLista(List<T> lista) {
 		if (keyOrdenacion != null && ElementoOrdenado.class.isAssignableFrom(clazz)) {
@@ -148,6 +159,7 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void addItem(T item) {
 		if (keyOrdenacion != null && ElementoOrdenado.class.isAssignableFrom(clazz)) {
@@ -161,6 +173,7 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		}
 	}
 
+	@Override
 	public void addItem(T item, int position) {
 		boolean empty = this.lista.isEmpty();
 		if (position == lista.size()) {
@@ -178,6 +191,7 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void setItem(T item) {
 		int itemPosition = getItemPosition(item, true);
@@ -195,47 +209,63 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 					notifyItemMoved(itemPosition, destino);
 				}
 			}
+			observableAdapter.setItem(item);
 			if (onDataListChangeListener != null) {
 				onDataListChangeListener.onChangeData();
 			}
 		}
 	}
 
+	@Override
 	public void deleteItem(T item) {
 		int itemPosition = getItemPosition(item, true);
 		if (itemPosition != -1) {
 			lista.remove(itemPosition);
 			notifyItemRemoved(itemPosition);
+			observableAdapter.deleteItem(item);
 			if (onDataListChangeListener != null && lista.isEmpty()) {
 				onDataListChangeListener.onVoidData();
 			}
 		}
 	}
 
+	@Override
 	public void recargarLista() {
 		this.viewHolders.clear();
 		notifyDataSetChanged();
+		observableAdapter.recargarLista();
 	}
 
+	@Override
 	public void setOnClickElementoListener(OnClickElementoListener<T> onClickElementoListener) {
 		this.onClickElementoListener = onClickElementoListener;
 	}
 
+	@Override
 	public void setOnLongClickElementoListener(OnLongClickElementoListener<T> onLongClickElementoListener) {
 		this.onLongClickElementoListener = onLongClickElementoListener;
 	}
 
+	@Override
 	public void setOnDataListChangeListener(OnDataListChangeListener onDataListChangeListener) {
 		this.onDataListChangeListener = onDataListChangeListener;
 	}
 
-	Class<T> getItemClass() {
+	@Nullable
+	public final AbstractViewHolder<T> getViewHolder(T item) {
+		return viewHolders.get(item);
+	}
+
+	public Class<T> getClazz() {
 		return clazz;
 	}
 
-	@Nullable
-	protected final AbstractViewHolder<T> getViewHolder(T item) {
-		return viewHolders.get(item);
+	public void registrarObservable(ListaObservable<T> observable) {
+		observableAdapter.registrarObservable(observable);
+	}
+
+	public void removerObservable(ListaObservable<T> observable) {
+		observableAdapter.removerObservable(observable);
 	}
 
 	class OnClickListaAdapter implements View.OnClickListener, View.OnLongClickListener {
@@ -251,30 +281,17 @@ public abstract class ListaAdapter<T extends ItemLista> extends RecyclerView.Ada
 			if (onClickElementoListener != null) {
 				onClickElementoListener.onClickElemento(holder);
 			}
+			observableAdapter.onClickElemento(holder);
 		}
 
 		@Override
 		public boolean onLongClick(View v) {
+			boolean b = false;
 			if (onLongClickElementoListener != null) {
-				return onLongClickElementoListener.onLongClickElemento(holder);
+				b = onLongClickElementoListener.onLongClickElemento(holder);
 			}
-			return false;
+			observableAdapter.onLongClickElemento(holder);
+			return b;
 		}
-	}
-
-	public interface OnClickElementoListener<T extends ItemLista> {
-		void onClickElemento(AbstractViewHolder<T> viewHolder);
-	}
-
-	public interface OnLongClickElementoListener<T extends ItemLista> {
-		boolean onLongClickElemento(AbstractViewHolder<T> viewHolder);
-	}
-
-	public interface OnDataListChangeListener {
-		void onSetData();
-
-		void onVoidData();
-
-		void onChangeData();
 	}
 }

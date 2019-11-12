@@ -7,7 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
+import com.victorlh.android.framework.listas.adapter.AbstractLista;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.R;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class ListaShimmerMinimoActivity extends AppCompatActivity {
 
 	private int control = 4;
-	private ListaShimmerMinimoAdapter lista;
+	private AbstractListaShimmerMinimo lista;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +24,21 @@ public class ListaShimmerMinimoActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_lista_shimmer_minimo);
 
 		ListaView listaView = findViewById(android.R.id.list);
-		lista = new ListaShimmerMinimoAdapter();
+		lista = new AbstractListaShimmerMinimo();
 		listaView.setAdapter(lista);
 
-		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemListaShimmerMinimo>() {
+		lista.setOnClickElementoListener(new AbstractLista.OnClickElementoListener<ItemListaShimmerMinimo>() {
 			@Override
 			public void onClickElemento(AbstractViewHolder<ItemListaShimmerMinimo> viewHolder) {
-				Toast.makeText(ListaShimmerMinimoActivity.this, "Elemento: " + viewHolder.getItem().getNumber(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(ListaShimmerMinimoActivity.this, "Click: " + viewHolder.getItem().getNumber(), Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		lista.setOnLongClickElementoListener(new AbstractLista.OnLongClickElementoListener<ItemListaShimmerMinimo>() {
+			@Override
+			public boolean onLongClickElemento(AbstractViewHolder<ItemListaShimmerMinimo> viewHolder) {
+				Toast.makeText(ListaShimmerMinimoActivity.this, "LongClick: " + viewHolder.getItem().getNumber(), Toast.LENGTH_SHORT).show();
+				return true;
 			}
 		});
 

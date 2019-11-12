@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.victorlh.android.framework.listas.ItemLista;
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
 import com.victorlh.android.framework.listas.view.ListaView;
 import com.victorlh.android.framework.sample.R;
 import com.victorlh.android.framework.sample.listas.shimmer_minimo.ListaShimmerMinimoActivity;
@@ -30,11 +29,11 @@ public class ListasActivity extends AppCompatActivity {
 
 	private void initLista() {
 		ListaView listaView = findViewById(android.R.id.list);
-		Lista lista = new Lista();
+		AbstractLista lista = new AbstractLista();
 		lista.setLista(ItemListas.values());
 		listaView.setAdapter(lista);
 
-		lista.setOnClickElementoListener(new ListaAdapter.OnClickElementoListener<ItemListas>() {
+		lista.setOnClickElementoListener(new com.victorlh.android.framework.listas.adapter.AbstractLista.OnClickElementoListener<ItemListas>() {
 			@Override
 			public void onClickElemento(AbstractViewHolder<ItemListas> viewHolder) {
 				ItemListas item = viewHolder.getItem();
@@ -44,9 +43,9 @@ public class ListasActivity extends AppCompatActivity {
 		});
 	}
 
-	private static final class Lista extends ListaAdapter<ItemListas> {
+	private static final class AbstractLista extends com.victorlh.android.framework.listas.adapter.AbstractLista<ItemListas> {
 
-		private Lista() {
+		private AbstractLista() {
 			super(ItemListas.class);
 		}
 

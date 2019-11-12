@@ -2,14 +2,12 @@ package com.victorlh.android.framework.sample.listas.simple;
 
 import android.view.View;
 
-import com.victorlh.android.framework.listas.AbstractLista;
 import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
-import com.victorlh.android.framework.sample.R;
+import com.victorlh.android.framework.listas.adapter.AbstractLista;
 
-public class ListaSimpleAdapter extends ListaAdapter<ItemListaSimple> {
+public class AbstractListaSimple extends AbstractLista<ItemListaSimple> {
 
-	ListaSimpleAdapter() {
+	AbstractListaSimple() {
 		super(ItemListaSimple.class);
 	}
 

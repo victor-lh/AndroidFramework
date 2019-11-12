@@ -11,7 +11,7 @@ import com.victorlh.android.framework.sample.R;
 public class ListaSimpleActivity extends AppCompatActivity {
 
 	private int control = 0;
-	private ListaSimpleAdapter lista;
+	private AbstractListaSimple lista;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class ListaSimpleActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_lista_simple);
 
 		ListaView listaView = findViewById(android.R.id.list);
-		lista = new ListaSimpleAdapter();
+		lista = new AbstractListaSimple();
 		listaView.setAdapter(lista);
 	}
 

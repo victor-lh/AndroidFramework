@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.h6ah4i.android.widget.advrecyclerview.animator.RefactoredDefaultItemAnimator;
 import com.victorlh.android.framework.listas.R;
-import com.victorlh.android.framework.listas.adapter.ListaAdapter;
+import com.victorlh.android.framework.listas.adapter.AbstractLista;
 import com.victorlh.android.framework.listas.view.shimmer.ShimmerListView;
 
 /**
@@ -110,8 +110,8 @@ public class ListaView extends LinearLayout {
 		this.adapter = adapter;
 		this.layoutManager = layoutManager;
 
-		if (adapter instanceof ListaAdapter) {
-			((ListaAdapter) adapter).setOnDataListChangeListener(new ListaOnDataChangeAdapter());
+		if (adapter instanceof AbstractLista) {
+			((AbstractLista) adapter).setOnDataListChangeListener(new ListaOnDataChangeAdapter());
 		}
 
 		if (animator == null) {
@@ -203,7 +203,7 @@ public class ListaView extends LinearLayout {
 		listaShimmer.setLyShimmer(layoutShimmerId);
 	}
 
-	private final class ListaOnDataChangeAdapter implements ListaAdapter.OnDataListChangeListener {
+	private final class ListaOnDataChangeAdapter implements AbstractLista.OnDataListChangeListener {
 
 		@Override
 		public void onSetData() {
