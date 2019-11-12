@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/listaRFList"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone" />
+
+	<com.victorlh.android.framework.listas.view.shimmer.ShimmerListView
+		android:id="@+id/listaRFShimmer"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone" />
+
+	<LinearLayout
+		android:id="@+id/listaRfLyVacia"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:visibility="gone"
+		tools:visibility="visible">
+
+		<TextView
+			android:id="@+id/listaRFTextoVacia"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:textSize="20sp"
+			tools:text="Texto descriptivo de la lista vacía" />
+
+		<androidx.appcompat.widget.AppCompatImageView
+			android:id="@+id/listaRFImagenVacia"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="20dp"
+			tools:src="@android:drawable/ic_menu_revert" />
+
+	</LinearLayout>
+
+</RelativeLayout>

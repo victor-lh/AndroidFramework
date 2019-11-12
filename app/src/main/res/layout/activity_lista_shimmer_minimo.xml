@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".listas.simple.ListaSimpleActivity">
+
+	<com.victorlh.android.framework.listas.view.ListaView
+		android:id="@android:id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:hasShimmer="true"
+		app:layoutShimmer="@layout/item_shimmer"
+		app:numShimmers="5"
+		app:textoListaVacia="asdasd"
+		app:voidItemCount="5" />
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/btnAdd"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/margin_floating_btn"
+		android:onClick="addElemento"
+		android:src="@drawable/add_icon"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/btnRemove"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/margin_floating_btn"
+		android:onClick="removeElemento"
+		android:src="@drawable/remove_icon"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
