@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/victor-lh/AndroidFramework'
     gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '1.0.0'
 
     developerId = 'victor-lh'
     developerName = 'VictorLH'
@@ -34,7 +34,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName libraryVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
