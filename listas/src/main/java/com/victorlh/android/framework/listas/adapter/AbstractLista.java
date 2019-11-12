@@ -279,20 +279,19 @@ public abstract class AbstractLista<T extends ItemLista> extends RecyclerView.Ad
 
 		@Override
 		public void onClick(View v) {
+			observableAdapter.onClickElemento(holder);
 			if (onClickElementoListener != null) {
 				onClickElementoListener.onClickElemento(holder);
 			}
-			observableAdapter.onClickElemento(holder);
 		}
 
 		@Override
 		public boolean onLongClick(View v) {
-			boolean b = false;
-			if (onLongClickElementoListener != null) {
-				b = onLongClickElementoListener.onLongClickElemento(holder);
-			}
 			observableAdapter.onLongClickElemento(holder);
-			return b;
+			if (onLongClickElementoListener != null) {
+				return onLongClickElementoListener.onLongClickElemento(holder);
+			}
+			return false;
 		}
 	}
 }
