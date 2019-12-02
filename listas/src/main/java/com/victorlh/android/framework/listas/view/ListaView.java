@@ -199,6 +199,14 @@ public class ListaView extends LinearLayout {
 		listaShimmer.setLyShimmer(layoutShimmerId);
 	}
 
+	public void addOnScrollListener(@NonNull RecyclerView.OnScrollListener listener) {
+		lista.addOnScrollListener(listener);
+	}
+
+	public RecyclerView getListaView() {
+		return lista;
+	}
+
 	private final class ListaOnDataChangeAdapter implements AbstractLista.OnDataListChangeListener {
 
 		@Override

@@ -88,4 +88,14 @@ public abstract class AbstractListaSeleccionable<T extends ItemLista> extends Ab
 	public void addOnSeleccionChangeListener(@NonNull OnSeleccionChangeListener onSeleccionChangeListener) {
 		adapter.addOnSeleccionChangeListener(onSeleccionChangeListener);
 	}
+
+	@Override
+	public void addOnItemDeseleccionadoListener(@NonNull OnItemDeseleccionadoListener<T> onItemDeseleccionadoListener) {
+		adapter.addOnItemDeseleccionadoListener(onItemDeseleccionadoListener);
+	}
+
+	@Override
+	public void addOnItemSeleccionadoListener(@NonNull OnItemSeleccionadoListener<T> onItemSeleccionadoListener) {
+		adapter.addOnItemSeleccionadoListener(onItemSeleccionadoListener);
+	}
 }

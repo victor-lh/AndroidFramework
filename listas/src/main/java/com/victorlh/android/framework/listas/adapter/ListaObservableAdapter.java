@@ -44,18 +44,28 @@ class ListaObservableAdapter<T extends ItemLista> extends ListaObservable<T> {
 		}
 	}
 
-	protected void onClickElemento(AbstractViewHolder<T> viewHolder) {
+	protected boolean onClickElemento(AbstractViewHolder<T> viewHolder) {
+		boolean interceptado = false;
 		for (int i = lista.size() - 1; i >= 0; i--) {
 			ListaObservable<T> observable = lista.get(i);
-			observable.onClickElemento(viewHolder);
+			boolean aux = observable.onClickElemento(viewHolder);
+			if (aux) {
+				interceptado = true;
+			}
 		}
+		return interceptado;
 	}
 
-	protected void onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+	protected boolean onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+		boolean interceptado = false;
 		for (int i = lista.size() - 1; i >= 0; i--) {
 			ListaObservable<T> observable = lista.get(i);
-			observable.onLongClickElemento(viewHolder);
+			boolean aux = observable.onLongClickElemento(viewHolder);
+			if (aux) {
+				interceptado = true;
+			}
 		}
+		return interceptado;
 	}
 
 	protected void onBindViewHolder(@NonNull final AbstractViewHolder<T> holder, int position) {

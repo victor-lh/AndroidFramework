@@ -1,3 +1,16 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
@@ -15,7 +28,7 @@ ext {
     siteUrl = 'https://github.com/victor-lh/AndroidFramework'
     gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'victor-lh'
     developerName = 'VictorLH'
@@ -45,6 +58,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }
