@@ -1,9 +1,9 @@
-package com.victorlh.android.framework.listas.filtros;
+package com.victorlh.android.framework.listas.adapter.filtros;
 
+import com.victorlh.android.framework.listas.filtros.ItemListaBuscador;
 import com.victorlh.tools.ToolsValidacion;
 
-@Deprecated
-public class FiltroBuscador<T extends ItemListaBuscador> implements IFiltroLista<T> {
+public class FiltroBuscador<T extends ItemListaBuscador> implements FiltroLista<T> {
 
 	private String text;
 

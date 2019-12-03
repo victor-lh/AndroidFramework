@@ -2,6 +2,7 @@ package com.victorlh.android.framework.listas.filtros;
 
 import com.victorlh.android.framework.listas.ItemLista;
 
+@Deprecated
 public interface IListaFiltrable<T extends ItemLista> {
 
 	void filtrar();

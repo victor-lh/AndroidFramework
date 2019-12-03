@@ -12,6 +12,7 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.annotation.DraggableI
  * @author Victor
  * 17/12/2018
  */
+@Deprecated
 public abstract class AbstractViewHolderDraggable<T extends ItemLista> extends AbstractViewHolder<T> implements DraggableItemViewHolder {
 
 	private final DraggableItemState mDragState = new DraggableItemState();

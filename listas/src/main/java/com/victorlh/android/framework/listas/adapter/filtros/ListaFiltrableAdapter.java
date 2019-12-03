@@ -1,19 +1,18 @@
-package com.victorlh.android.framework.listas.filtros;
+package com.victorlh.android.framework.listas.adapter.filtros;
 
-import com.victorlh.android.framework.listas.AbstractLista;
 import com.victorlh.android.framework.listas.ItemLista;
+import com.victorlh.android.framework.listas.adapter.AbstractLista;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Deprecated
-public class ListaFiltrableAdapter<T extends ItemLista> implements IListaFiltrable<T> {
+public class ListaFiltrableAdapter<T extends ItemLista> implements ListaFiltrable<T> {
 
 	protected AbstractLista<T> adapter;
 	protected List<T> listaOriginal;
-	protected final Set<IFiltroLista<T>> filtros;
+	protected final Set<FiltroLista<T>> filtros;
 
 	public ListaFiltrableAdapter(AbstractLista<T> adapter) {
 		this.filtros = new HashSet<>();
@@ -39,18 +38,19 @@ public class ListaFiltrableAdapter<T extends ItemLista> implements IListaFiltrab
 		}
 	}
 
+	@Override
 	public void invalidate() {
 		this.listaOriginal = null;
 	}
 
 
 	@Override
-	public void addFiltro(IFiltroLista<T> filtro) {
+	public void addFiltro(FiltroLista<T> filtro) {
 		this.filtros.add(filtro);
 	}
 
 	@Override
-	public void removeFiltro(IFiltroLista<T> filtro) {
+	public void removeFiltro(FiltroLista<T> filtro) {
 		this.filtros.remove(filtro);
 	}
 
@@ -60,7 +60,7 @@ public class ListaFiltrableAdapter<T extends ItemLista> implements IListaFiltrab
 	}
 
 	private boolean isDentroFiltros(T elemento) {
-		for (IFiltroLista<T> filtro : filtros) {
+		for (FiltroLista<T> filtro : filtros) {
 			boolean dentroFiltro = filtro.isDentroFiltro(elemento);
 			if (!dentroFiltro) {
 				return false;
