@@ -1,2 +1,2 @@
-include ':app', ':core', ':listas'
+include ':core', ':listas'
 rootProject.name = 'AndroidFramework'

@@ -90,7 +90,6 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 
 	@Override
 	public void removeSeleccion(@NonNull T item) {
-		Log.d("AAAAAA", "Remove seleccion");
 		checkAttached();
 		seleccion.remove(item);
 		AbstractViewHolder<T> viewHolder = listaAdapter.getViewHolder(item);
