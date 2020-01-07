@@ -49,6 +49,7 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 
 		if (itemView instanceof ViewGroup) {
 			Context context = itemView.getContext();
+			onViewsOldRemove();
 			((ViewGroup) itemView).removeAllViews();
 
 			LayoutInflater inflater = LayoutInflater.from(context);
@@ -64,6 +65,9 @@ public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerVi
 		}
 
 		onProcesar();
+	}
+
+	protected void onViewsOldRemove() {
 	}
 
 	public final void procesarEmpty() {

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * @author Victor
  * 17/12/2018
  */
+@Deprecated
 public abstract class AbstractViewHolder<T extends ItemLista> extends RecyclerView.ViewHolder {
 
 	private AbstractLista<T> lista;

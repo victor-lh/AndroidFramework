@@ -38,6 +38,10 @@ public interface ListaSeleccionable<T extends ItemLista> {
 
 	void addOnSeleccionChangeListener(@NonNull OnSeleccionChangeListener onSeleccionChangeListener);
 
+	void addOnItemSeleccionadoListener(@NonNull OnItemSeleccionadoListener<T> onItemSeleccionadoListener);
+
+	void addOnItemDeseleccionadoListener(@NonNull OnItemDeseleccionadoListener<T> onItemDeseleccionadoListener);
+
 	interface OnStartSeleccionListener {
 		void onStartSeleccion();
 	}
@@ -48,5 +52,13 @@ public interface ListaSeleccionable<T extends ItemLista> {
 
 	interface OnSeleccionChangeListener {
 		void onSeleccionChangeListener(int numSeleccionados);
+	}
+
+	interface OnItemSeleccionadoListener<T extends ItemLista> {
+		void onItemSeleccionado(T item);
+	}
+
+	interface OnItemDeseleccionadoListener<T extends ItemLista> {
+		void onItemDeseleccionado(T item);
 	}
 }

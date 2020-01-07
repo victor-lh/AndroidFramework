@@ -4,6 +4,7 @@ package com.victorlh.android.framework.listas;
  * @author Victor
  * 09/11/2018
  */
+@Deprecated
 public interface IEventosListas {
 
 	interface OnClickElementoListener<T extends ItemLista> {

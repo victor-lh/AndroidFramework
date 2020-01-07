@@ -25,6 +25,8 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 	private List<OnStartSeleccionListener> onStartSeleccionListener;
 	private List<OnStopSeleccionListener> onStopSeleccionListener;
 	private List<OnSeleccionChangeListener> onSeleccionChangeListeners;
+	private List<OnItemSeleccionadoListener<T>> onItemSeleccionadoListeners;
+	private List<OnItemDeseleccionadoListener<T>> onItemDeseleccionadoListeners;
 
 	public ListaSeleccionableAdapter(ETipoSeleccion tipoSeleccion) {
 		this.tipoSeleccion = tipoSeleccion;
@@ -33,6 +35,8 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 		this.onStartSeleccionListener = new ArrayList<>();
 		this.onStopSeleccionListener = new ArrayList<>();
 		this.onSeleccionChangeListeners = new ArrayList<>();
+		this.onItemSeleccionadoListeners = new ArrayList<>();
+		this.onItemDeseleccionadoListeners = new ArrayList<>();
 
 		this.observable = new ListaSeleccionableObservable();
 	}
@@ -80,18 +84,19 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 		if (!haySeleccionados) {
 			startSeleccion();
 		}
+		onItemSeleccionado(item);
 		onSeleccionChange();
 	}
 
 	@Override
 	public void removeSeleccion(@NonNull T item) {
-		Log.d("AAAAAA", "Remove seleccion");
 		checkAttached();
 		seleccion.remove(item);
 		AbstractViewHolder<T> viewHolder = listaAdapter.getViewHolder(item);
 		if (viewHolder != null) {
 			viewHolder.setSeleccion(false);
 		}
+		onItemDeseleccionado(item);
 		onSeleccionChange();
 		if (!haySeleccionados()) {
 			stopSeleccion();
@@ -108,9 +113,22 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 			if (viewHolder != null) {
 				viewHolder.setSeleccion(false);
 			}
+			onItemDeseleccionado(item);
 		}
 		onSeleccionChange();
 		stopSeleccion();
+	}
+
+	private void removeAllSeleccionSinEventos() {
+		checkAttached();
+		seleccion.clear();
+		List<T> lista = listaAdapter.getLista();
+		for (T item : lista) {
+			AbstractViewHolder<T> viewHolder = listaAdapter.getViewHolder(item);
+			if (viewHolder != null) {
+				viewHolder.setSeleccion(false);
+			}
+		}
 	}
 
 	@Override
@@ -148,6 +166,16 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 		this.onSeleccionChangeListeners.add(onSeleccionChangeListener);
 	}
 
+	@Override
+	public void addOnItemDeseleccionadoListener(@NonNull OnItemDeseleccionadoListener<T> onItemDeseleccionadoListener) {
+		this.onItemDeseleccionadoListeners.add(onItemDeseleccionadoListener);
+	}
+
+	@Override
+	public void addOnItemSeleccionadoListener(@NonNull OnItemSeleccionadoListener<T> onItemSeleccionadoListener) {
+		this.onItemSeleccionadoListeners.add(onItemSeleccionadoListener);
+	}
+
 	public void attachLista(AbstractLista<T> lista) {
 		this.listaAdapter = lista;
 		this.listaAdapter.registrarObservable(observable);
@@ -180,6 +208,18 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 		}
 	}
 
+	private void onItemSeleccionado(T item) {
+		for (OnItemSeleccionadoListener<T> onItemSeleccionadoListener : onItemSeleccionadoListeners) {
+			onItemSeleccionadoListener.onItemSeleccionado(item);
+		}
+	}
+
+	private void onItemDeseleccionado(T item) {
+		for (OnItemDeseleccionadoListener<T> onItemDeseleccionadoListener : onItemDeseleccionadoListeners) {
+			onItemDeseleccionadoListener.onItemDeseleccionado(item);
+		}
+	}
+
 	private void checkAttached() {
 		if (listaAdapter == null) {
 			throw new IllegalStateException("No se a asociado el adapter a ninguna Lista");
@@ -194,31 +234,39 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 		}
 
 		@Override
-		protected void onClickElemento(AbstractViewHolder<T> viewHolder) {
+		protected boolean onClickElemento(AbstractViewHolder<T> viewHolder) {
 			T item = viewHolder.getItem();
 			boolean haySeleccionados = haySeleccionados();
 			if (tipoSeleccion != ETipoSeleccion.NONE) {
 				if (!haySeleccionados) {
 					if (tipoSeleccion != ETipoSeleccion.LONGCLICK) {
 						addSeleccion(item);
+						return true;
 					}
 				} else {
 					if (isSeleccionado(item)) {
 						removeSeleccion(item);
 					} else {
 						if (tipoSeleccion == ETipoSeleccion.CLICK_UNICO) {
-							removeAllSeleccion();
+							T[] itemsSeleccionados = getItemsSeleccionados();
+							T oldSeleccionado = itemsSeleccionados.length > 0 ? itemsSeleccionados[0] : null;
+							removeAllSeleccionSinEventos();
+							if (oldSeleccionado != null) {
+								onItemDeseleccionado(oldSeleccionado);
+							}
 							addSeleccion(item);
 						} else {
 							addSeleccion(item);
 						}
 					}
+					return true;
 				}
 			}
+			return false;
 		}
 
 		@Override
-		protected void onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+		protected boolean onLongClickElemento(AbstractViewHolder<T> viewHolder) {
 			T item = viewHolder.getItem();
 			if (tipoSeleccion != ETipoSeleccion.NONE) {
 				if (!haySeleccionados()) {
@@ -228,14 +276,16 @@ public class ListaSeleccionableAdapter<T extends ItemLista> implements ListaSele
 						removeSeleccion(item);
 					} else {
 						if (tipoSeleccion == ETipoSeleccion.CLICK_UNICO) {
-							removeAllSeleccion();
+							removeAllSeleccionSinEventos();
 							addSeleccion(item);
 						} else {
 							addSeleccion(item);
 						}
 					}
 				}
+				return true;
 			}
+			return false;
 		}
 
 		@Override

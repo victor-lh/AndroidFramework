@@ -15,10 +15,12 @@ public abstract class ListaObservable<T extends ItemLista> {
 	protected void recargarLista() {
 	}
 
-	protected void onClickElemento(AbstractViewHolder<T> viewHolder) {
+	protected boolean onClickElemento(AbstractViewHolder<T> viewHolder) {
+		return false;
 	}
 
-	protected void onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+	protected boolean onLongClickElemento(AbstractViewHolder<T> viewHolder) {
+		return false;
 	}
 
 	protected void onBindViewHolder(@NonNull final AbstractViewHolder<T> holder, int position) {
