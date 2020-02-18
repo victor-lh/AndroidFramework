@@ -8,9 +8,14 @@ install {
             groupId publishedGroupId
             artifactId artifact
 
-            name libraryName
+            if(libraryName != null) {
+                name libraryName
+            }
             description libraryDescription
-            url siteUrl
+
+            if(siteUrl) {
+                url siteUrl
+            }
 
             licenses {
                 license {

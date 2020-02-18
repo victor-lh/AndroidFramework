@@ -4,8 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.victorlh.android.framework.core.logs.LogApp;
-
 public class AplicacionController {
 
 	private static volatile AplicacionController instance;
@@ -13,8 +11,6 @@ public class AplicacionController {
 	private boolean inicializado = false;
 
 	private AppProperties appProperties;
-
-	private LogApp logApp;
 
 	private AplicacionController() {
 	}
@@ -40,7 +36,6 @@ public class AplicacionController {
 	private synchronized void init(Application application) {
 		if (!inicializado) {
 			this.appProperties = new AppProperties(application);
-			this.logApp = new LogApp(application);
 			this.inicializado = true;
 		}
 	}
@@ -49,12 +44,6 @@ public class AplicacionController {
 	public AppProperties getAppProperties() {
 		checkInicializado();
 		return appProperties;
-	}
-
-	@NonNull
-	public LogApp getLogApp() {
-		checkInicializado();
-		return logApp;
 	}
 
 	private void checkInicializado() {

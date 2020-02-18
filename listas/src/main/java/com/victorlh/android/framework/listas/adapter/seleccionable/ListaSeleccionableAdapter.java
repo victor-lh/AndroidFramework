@@ -1,7 +1,5 @@
 package com.victorlh.android.framework.listas.adapter.seleccionable;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.victorlh.android.framework.listas.ItemLista;
