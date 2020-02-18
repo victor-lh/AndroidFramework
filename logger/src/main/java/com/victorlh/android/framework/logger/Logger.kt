@@ -79,7 +79,7 @@ object Logger {
     }
 
     fun log(nivel: NivelLog, @Size(max = 23) tag: String, mensaje: String) {
-        log(nivel, tag, mensaje)
+        log(nivel, tag, mensaje, null)
     }
 
     fun log(nivel: NivelLog, @Size(max = 23) tag: String, mensaje: String, error: Throwable?) {
