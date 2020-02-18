@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.victorlh.android.framework.listas.ItemLista;
-import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
 import com.victorlh.android.framework.listas.adapter.AbstractLista;
+import com.victorlh.android.framework.listas.adapter.AbstractViewHolder;
 import com.victorlh.android.framework.listas.view.ListaView;
+import com.victorlh.android.framework.logger.AndroidLogObserver;
+import com.victorlh.android.framework.logger.Logger;
 import com.victorlh.android.framework.sample.listas.ListasActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +26,29 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		initLista();
+
+		AndroidLogObserver observer = new AndroidLogObserver();
+//		Logger.INSTANCE.registrarObserver(observer);
+
+		Logger.INSTANCE.trace("AAAAAA", "Trace 1");
+		Logger.INSTANCE.trace("AAAAAA", new Exception("Trace 2"));
+		Logger.INSTANCE.trace("AAAAAA", "Trace 3", new Exception("Trace 3"));
+
+		Logger.INSTANCE.d("AAAAAA", "Debug 1");
+		Logger.INSTANCE.d("AAAAAA", new Exception("Debug 2"));
+		Logger.INSTANCE.d("AAAAAA", "Debug 3", new Exception("Debug 3"));
+
+		Logger.INSTANCE.i("AAAAAA", "Info 1");
+		Logger.INSTANCE.i("AAAAAA", new Exception("Info 2"));
+		Logger.INSTANCE.i("AAAAAA", "Info 3", new Exception("Info 2"));
+
+		Logger.INSTANCE.w("AAAAAA", "Warn 1");
+		Logger.INSTANCE.w("AAAAAA", new Exception("Warn 2"));
+		Logger.INSTANCE.w("AAAAAA", "Warn 3", new Exception("Warn 3"));
+
+		Logger.INSTANCE.e("AAAAAA", "Error 1");
+		Logger.INSTANCE.e("AAAAAA", new Exception("Error 2"));
+		Logger.INSTANCE.e("AAAAAA", "Error 3", new Exception("Error 3"));
 	}
 
 	private void initLista() {
