@@ -1,7 +1,6 @@
 package com.victorlh.android.framework.logger
 
 enum class NivelLogImpl(override val nivelLog: Int) : NivelLog {
-
     OFF(Integer.MAX_VALUE),
     ERROR(1000),
     WARN(800),

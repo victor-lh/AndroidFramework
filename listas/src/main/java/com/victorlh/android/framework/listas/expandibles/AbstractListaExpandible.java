@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
-import com.victorlh.android.framework.listas.IEventosListas;
+import com.victorlh.android.framework.listas.adapter.Lista;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public abstract class AbstractListaExpandible<IGL extends ItemGroupLista<ICL>, I
 
 	private List<IGL> lista;
 
-	private IEventosListas.OnDataListChangeListener onDataListChangeListener;
+	private Lista.OnDataListChangeListener onDataListChangeListener;
 
 	public AbstractListaExpandible(int lyGroupId, int lyChildId) {
 		setHasStableIds(true);
@@ -214,7 +214,7 @@ public abstract class AbstractListaExpandible<IGL extends ItemGroupLista<ICL>, I
 		}
 	}
 
-	public void setOnDataListChangeListener(IEventosListas.OnDataListChangeListener onDataListChangeListener) {
+	public void setOnDataListChangeListener(Lista.OnDataListChangeListener onDataListChangeListener) {
 		this.onDataListChangeListener = onDataListChangeListener;
 	}
 

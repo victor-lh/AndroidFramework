@@ -1,42 +1,27 @@
 buildscript {
     dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 
     repositories {
-        google()
         jcenter()
     }
 }
 
-
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'Listas'
+def version = "1.1.0"
 
-    publishedGroupId = 'com.victorlh.android.framework'
-    libraryName = 'Listas'
-    artifact = 'Listas'
-
-    libraryDescription = 'Framework para listas de Android'
-
-    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
-    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
-
-    libraryVersion = '1.0.6'
-
-    developerId = 'victor-lh'
-    developerName = 'VictorLH'
-    developerEmail = 'victor-lh@github.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
+install {
+    repositories.mavenInstaller {
+        pom.groupId = 'com.victorlh.android.framework'
+        pom.artifactId = project.name
+        pom.version = version
+    }
 }
 
 android {
@@ -47,7 +32,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName libraryVersion
+        versionName version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -60,24 +45,21 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api project(":core")
-    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
-    implementation 'com.facebook.shimmer:shimmer:0.4.0' //Shimmer carga de elementos
+    api 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+    api 'com.facebook.shimmer:shimmer:0.4.0' //Shimmer carga de elementos
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
-
-apply from: '../upload.gradle'

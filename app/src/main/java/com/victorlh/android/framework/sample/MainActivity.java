@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 		@Override
 		protected AbstractViewHolder<ItemMain> createViewHolder(View view) {
-			return new AbstractViewHolder<ItemMain>(view, R.layout.item_boton) {
+			return new AbstractViewHolder<ItemMain>(view, R.layout.item_boton, null) {
 				@Override
 				protected void onProcesar() {
 					ItemMain item = getItem();

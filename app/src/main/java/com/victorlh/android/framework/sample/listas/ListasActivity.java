@@ -51,7 +51,7 @@ public class ListasActivity extends AppCompatActivity {
 
 		@Override
 		protected AbstractViewHolder<ItemListas> createViewHolder(View view) {
-			return new AbstractViewHolder<ItemListas>(view, R.layout.item_boton) {
+			return new AbstractViewHolder<ItemListas>(view, R.layout.item_boton, null) {
 				@Override
 				protected void onProcesar() {
 					ItemListas item = getItem();
