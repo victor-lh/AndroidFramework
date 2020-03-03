@@ -17,7 +17,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def version = "1.0.0"
+def version = "1.0.1"
 
 ext {
     bintrayRepo = 'maven'
