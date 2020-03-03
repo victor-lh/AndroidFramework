@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 
     repositories {
@@ -11,17 +12,35 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
-def version = "0.1.0"
+def version = "1.0.0"
 
-install {
-    repositories.mavenInstaller {
-        pom.groupId = 'com.victorlh.android.framework'
-        pom.artifactId = project.name
-        pom.version = version
-    }
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Core'
+
+    publishedGroupId = 'com.victorlh.android.framework'
+    libraryName = 'Core'
+    artifact = 'core'
+
+    libraryDescription = 'Core del framework de Android'
+
+    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
+    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
+
+    libraryVersion = version
+
+    developerId = 'victor-lh'
+    developerName = 'VictorLH'
+    developerEmail = 'victor-lh@github.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 android {
@@ -50,17 +69,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':logger')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'com.victorlh:JavaTools:1.1.1'
 
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.annotation:annotation:1.1.0'
+    debugImplementation project(':logger')
+    releaseApi 'com.victorlh.android.framework:logger:1.0.0'
 
     implementation 'com.google.android.material:material:1.1.0'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
