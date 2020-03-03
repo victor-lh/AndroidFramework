@@ -10,7 +10,7 @@ import com.victorlh.tools.Transform;
 public class ViewHolderListaSimple extends AbstractViewHolder<ItemListaSimple> {
 
 	public ViewHolderListaSimple(View itemView) {
-		super(itemView, R.layout.item_lista_simple);
+		super(itemView, R.layout.item_lista_simple, null);
 	}
 
 	@Override

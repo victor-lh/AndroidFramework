@@ -8,9 +8,14 @@ install {
             groupId publishedGroupId
             artifactId artifact
 
-            name libraryName
+            if (libraryName != null) {
+                name libraryName
+            }
             description libraryDescription
-            url siteUrl
+
+            if (siteUrl) {
+                url siteUrl
+            }
 
             licenses {
                 license {
@@ -57,10 +62,31 @@ artifacts {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
+apply plugin: "maven-publish"
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            pom.withXml {
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                configurations.api.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
-
+    publications = ['MyPublication']
     configurations = ['archives']
     pkg {
         repo = bintrayRepo

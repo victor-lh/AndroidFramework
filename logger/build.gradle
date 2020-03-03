@@ -1,0 +1,83 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+
+    repositories {
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def version = "1.0.0"
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Logger'
+
+    publishedGroupId = 'com.victorlh.android.framework'
+    libraryName = 'Logger'
+    artifact = 'logger'
+
+    libraryDescription = 'Framework de logger de Android'
+
+    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
+    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
+
+    libraryVersion = version
+
+    developerId = 'victor-lh'
+    developerName = 'VictorLH'
+    developerEmail = 'victor-lh@github.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+//install {
+//    repositories.mavenInstaller {
+//        pom.groupId = 'com.victorlh.android.framework'
+//        pom.artifactId = project.name
+//        pom.version = version
+//    }
+//}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName version
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.annotation:annotation:1.1.0'
+    testImplementation 'junit:junit:4.13'
+}
+
+apply from: '../upload.gradle'

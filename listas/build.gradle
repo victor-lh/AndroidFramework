@@ -1,6 +1,23 @@
+buildscript {
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    }
+
+    repositories {
+        jcenter()
+    }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+
+def version = "1.1.0"
 
 ext {
     bintrayRepo = 'maven'
@@ -8,14 +25,14 @@ ext {
 
     publishedGroupId = 'com.victorlh.android.framework'
     libraryName = 'Listas'
-    artifact = 'Listas'
+    artifact = 'listas'
 
-    libraryDescription = 'Framework para listas de Android'
+    libraryDescription = 'Framework de listas de Android'
 
     siteUrl = 'https://github.com/victor-lh/AndroidFramework'
     gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = version
 
     developerId = 'victor-lh'
     developerName = 'VictorLH'
@@ -34,7 +51,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName libraryVersion
+        versionName version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -51,13 +68,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    api project(":core")
+    debugApi project(':core')
+    releaseApi 'com.victorlh.android.framework:core:1.0.1'
+
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
-    implementation 'com.facebook.shimmer:shimmer:0.4.0' //Shimmer carga de elementos
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
+    api "androidx.recyclerview:recyclerview:1.1.0"
+    api 'com.facebook.shimmer:shimmer:0.5.0' //Shimmer carga de elementos
+
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
