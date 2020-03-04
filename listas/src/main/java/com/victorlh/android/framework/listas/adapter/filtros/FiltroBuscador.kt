@@ -3,7 +3,7 @@ package com.victorlh.android.framework.listas.adapter.filtros
 import com.victorlh.tools.ToolsValidacion
 import java.util.*
 
-class FiltroBuscador<T : ItemListaBuscador> : FiltroLista<T> {
+open class FiltroBuscador<T : ItemListaBuscador> : FiltroLista<T> {
 
     private var text: String? = null
 
