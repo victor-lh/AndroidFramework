@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.victorlh.android.framework.core.fragment.AbstractFragment
 
 /**
@@ -16,6 +17,7 @@ abstract class AbstractDialogFragment : DialogFragment(), IDialog {
 
 	private var viewId = 0
 	protected lateinit var fragment: AbstractFragment
+	private lateinit var mFragmentManager: FragmentManager
 
 	protected var viewContainer: View? = null
 	private var onCancelListener: ((dialog: IDialog) -> Unit)? = null
@@ -24,9 +26,10 @@ abstract class AbstractDialogFragment : DialogFragment(), IDialog {
 	private var height: Int = ViewGroup.LayoutParams.MATCH_PARENT
 	private var width: Int = ViewGroup.LayoutParams.MATCH_PARENT
 
-	fun init(viewId: Int, fragment: AbstractFragment) {
+	fun init(viewId: Int, fragment: AbstractFragment, fragmentManager: FragmentManager) {
 		this.viewId = viewId
 		this.fragment = fragment
+		this.mFragmentManager = fragmentManager
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {
@@ -75,11 +78,10 @@ abstract class AbstractDialogFragment : DialogFragment(), IDialog {
 	}
 
 	protected abstract val idLyFragmentBody: Int
+
 	override fun show() {
-		if (fragmentManager != null) {
-			val tag = fragment.javaClass.name
-			show(fragmentManager!!, tag)
-		}
+		val tag = fragment.javaClass.name
+		show(mFragmentManager, tag)
 	}
 
 	override fun close() {
