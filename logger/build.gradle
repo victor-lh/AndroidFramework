@@ -1,20 +1,6 @@
-buildscript {
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-
-    repositories {
-        jcenter()
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 def version = "1.0.0"
 
@@ -28,27 +14,8 @@ ext {
 
     libraryDescription = 'Framework de logger de Android'
 
-    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
-    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
-
     libraryVersion = version
-
-    developerId = 'victor-lh'
-    developerName = 'VictorLH'
-    developerEmail = 'victor-lh@github.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
 }
-
-//install {
-//    repositories.mavenInstaller {
-//        pom.groupId = 'com.victorlh.android.framework'
-//        pom.artifactId = project.name
-//        pom.version = version
-//    }
-//}
 
 android {
     compileSdkVersion 29

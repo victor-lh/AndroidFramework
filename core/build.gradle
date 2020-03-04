@@ -1,23 +1,9 @@
-buildscript {
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-
-    repositories {
-        jcenter()
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-def version = "1.0.1"
+def version = "1.0.10"
 
 ext {
     bintrayRepo = 'maven'
@@ -26,21 +12,9 @@ ext {
     publishedGroupId = 'com.victorlh.android.framework'
     libraryName = 'Core'
     artifact = 'core'
-
-    libraryDescription = 'Core del framework de Android'
-
-    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
-    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
-
     libraryVersion = version
 
-    developerId = 'victor-lh'
-    developerName = 'VictorLH'
-    developerEmail = 'victor-lh@github.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
+    libraryDescription = 'Core del framework de Android'
 }
 
 android {

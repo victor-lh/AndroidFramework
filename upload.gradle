@@ -1,5 +1,33 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
 group = publishedGroupId
 version = libraryVersion
+
+def pomConfig = {
+    licenses {
+        license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id 'victor-lh'
+            name 'VictorLH'
+            email 'victor-lh@github.com'
+        }
+    }
+    url 'https://github.com/victor-lh/AndroidFramework'
+
+    scm {
+        connection 'https://github.com/victor-lh/AndroidFramework.git'
+        developerConnection 'https://github.com/victor-lh/AndroidFramework.git'
+        url 'https://github.com/victor-lh/AndroidFramework'
+    }
+}
 
 install {
     repositories.mavenInstaller {
@@ -7,35 +35,14 @@ install {
             packaging 'aar'
             groupId publishedGroupId
             artifactId artifact
+            version libraryVersion
 
             if (libraryName != null) {
                 name libraryName
             }
             description libraryDescription
-
-            if (siteUrl) {
-                url siteUrl
-            }
-
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
         }
+
     }
 }
 
@@ -62,21 +69,22 @@ artifacts {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-apply plugin: "maven-publish"
+afterEvaluate {
+    publishing {
+        publications {
+            MyPublication(MavenPublication) {
+                from components.release
+                artifact sourcesJar
+                artifact javadocJar
 
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            pom.withXml {
-                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
-                configurations.api.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                    }
+                groupId publishedGroupId
+                artifactId artifact
+                version libraryVersion
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', libraryDescription)
+                    root.appendNode('name', libraryName)
+                    root.children().last() + pomConfig
                 }
             }
         }
@@ -92,9 +100,9 @@ bintray {
         repo = bintrayRepo
         name = bintrayName
         desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
+        websiteUrl = 'https://github.com/victor-lh/AndroidFramework'
+        vcsUrl = 'https://github.com/victor-lh/AndroidFramework.git'
+        licenses = ["Apache-2.0"]
         dryRun = false
         publish = true
         override = false
