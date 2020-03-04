@@ -5,7 +5,7 @@ import com.victorlh.tools.versionado.Version
 /**
  * Created by victor on 19/03/2017.
  */
-class VersionApliacion(val versionActual: Version) {
+open class VersionApliacion(val versionActual: Version) {
 
     var ultimaVersion: Version? = null
         get() = if (field == null) Version.getVersionNull() else field
