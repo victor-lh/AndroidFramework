@@ -17,7 +17,7 @@ open class ListaSeleccionableAdapter<T>(override val tipoSeleccion: ETipoSelecci
     private val onItemDeseleccionadoListeners: MutableList<OnItemDeseleccionadoListener<T>> = ArrayList()
 
     init {
-        listaAdapter.removerObservable(observable)
+        listaAdapter.registrarObservable(observable)
     }
 
     override fun setSeleccion(items: Array<T>) {

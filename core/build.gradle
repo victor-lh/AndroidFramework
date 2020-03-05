@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def version = "1.0.14"
+def version = "1.0.15"
 
 ext {
     bintrayRepo = 'maven'

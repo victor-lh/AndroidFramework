@@ -31,7 +31,7 @@ abstract class AbstractLista<T> protected constructor(val clazz: Class<T>) : Rec
 		this.keyOrdenacion = keyOrdenacion
 	}
 
-	protected abstract fun createViewHolder(view: View?): AbstractViewHolder<T>
+	protected abstract fun createViewHolder(view: View): AbstractViewHolder<T>
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<T> {
 		val context = parent.context

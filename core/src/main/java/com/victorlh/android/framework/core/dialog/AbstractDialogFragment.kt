@@ -52,12 +52,16 @@ abstract class AbstractDialogFragment : DialogFragment(), IDialog {
 		if (viewId == 0) {
 			return null
 		}
-		viewContainer = inflater.inflate(viewId, container, false)
+		return inflater.inflate(viewId, container, false)
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
 		val childFragmentManager = childFragmentManager
 		val fragmentTransaction = childFragmentManager.beginTransaction()
 		fragmentTransaction.add(idLyFragmentBody, fragment)
 		fragmentTransaction.commit()
-		return view
 	}
 
 	override fun onStart() {
