@@ -8,7 +8,7 @@ import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 import com.victorlh.android.framework.listas.ItemLista
 import com.victorlh.android.framework.listas.R
-import com.victorlh.android.framework.listas.adapter.Lista.*
+import com.victorlh.android.framework.listas.adapter.Lista.OnDataListChangeListener
 import com.victorlh.tools.ordenacion.ElementoOrdenado
 import com.victorlh.tools.ordenacion.KeyOrdenacion
 import com.victorlh.tools.ordenacion.UtilOrdenacion
@@ -22,8 +22,8 @@ abstract class AbstractLista<T> protected constructor(val clazz: Class<T>) : Rec
 	private val viewHolders: HashMap<T, AbstractViewHolder<T>> = HashMap()
 	private val observableAdapter: ListaObservableAdapter<T> = ListaObservableAdapter()
 
-	private var onClickElementoListener: OnClickElementoListener<T>? = null
-	private var onLongClickElementoListener: OnLongClickElementoListener<T>? = null
+	private var onClickElementoListener: ((viewHolder: AbstractViewHolder<T>) -> Unit)? = null
+	private var onLongClickElementoListener: ((viewHolder: AbstractViewHolder<T>) -> Boolean)? = null
 	private var onDataListChangeListener: OnDataListChangeListener? = null
 	private var keyOrdenacion: KeyOrdenacion? = null
 
@@ -193,11 +193,11 @@ abstract class AbstractLista<T> protected constructor(val clazz: Class<T>) : Rec
 		observableAdapter.recargarLista()
 	}
 
-	override fun setOnClickElementoListener(onClickElementoListener: OnClickElementoListener<T>) {
+	override fun setOnClickElementoListener(onClickElementoListener: (viewHolder: AbstractViewHolder<T>) -> Unit) {
 		this.onClickElementoListener = onClickElementoListener
 	}
 
-	override fun setOnLongClickElementoListener(onLongClickElementoListener: OnLongClickElementoListener<T>) {
+	override fun setOnLongClickElementoListener(onLongClickElementoListener: (viewHolder: AbstractViewHolder<T>) -> Boolean) {
 		this.onLongClickElementoListener = onLongClickElementoListener
 	}
 
@@ -225,14 +225,14 @@ abstract class AbstractLista<T> protected constructor(val clazz: Class<T>) : Rec
 		override fun onClick(v: View) {
 			val interceptado = observableAdapter.onClickElemento(holder)
 			if (!interceptado && onClickElementoListener != null) {
-				onClickElementoListener!!.onClickElemento(holder)
+				onClickElementoListener!!.invoke(holder)
 			}
 		}
 
 		override fun onLongClick(v: View): Boolean {
 			val interceptObservable = observableAdapter.onLongClickElemento(holder)
 			return if (!interceptObservable && onLongClickElementoListener != null) {
-				onLongClickElementoListener!!.onLongClickElemento(holder)
+				onLongClickElementoListener!!.invoke(holder)
 			} else interceptObservable
 		}
 

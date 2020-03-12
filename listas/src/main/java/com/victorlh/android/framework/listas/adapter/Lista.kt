@@ -17,17 +17,9 @@ interface Lista<T> {
     fun deleteItem(item: T)
     fun recargarLista()
 
-    fun setOnClickElementoListener(onClickElementoListener: OnClickElementoListener<T>)
-    fun setOnLongClickElementoListener(onLongClickElementoListener: OnLongClickElementoListener<T>)
+    fun setOnClickElementoListener(onClickElementoListener: (viewHolder: AbstractViewHolder<T>) -> Unit)
+    fun setOnLongClickElementoListener(onLongClickElementoListener: (viewHolder: AbstractViewHolder<T>) -> Boolean)
     fun setOnDataListChangeListener(onDataListChangeListener: OnDataListChangeListener)
-
-    interface OnClickElementoListener<T> {
-        fun onClickElemento(viewHolder: AbstractViewHolder<T>)
-    }
-
-    interface OnLongClickElementoListener<T> {
-        fun onLongClickElemento(viewHolder: AbstractViewHolder<T>): Boolean
-    }
 
     interface OnDataListChangeListener {
         fun onSetData()

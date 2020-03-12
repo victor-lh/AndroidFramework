@@ -46,7 +46,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     debugApi project(':core')
-    releaseApi 'com.victorlh.android.framework:core:1.0.15'
+    releaseApi 'com.victorlh.android.framework:core:1.0.17'
 
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 
