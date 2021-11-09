@@ -1,26 +1,11 @@
 apply plugin: "maven-publish"
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier "sources"
 }
 
 publishing {
-    repositories {
-        maven {
-            url "https://europe-maven.pkg.dev/rapbattle-2cb96/android-public"
-            credentials {
-                username = "_json_key_base64"
-                password = properties.getProperty("artifactRegistryMavenSecret")
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
     publications {
         mavenJava(MavenPublication) {
             artifactId = artifact
@@ -32,6 +17,18 @@ publishing {
             pom {
                 name = libraryName
                 description = libraryDescription
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://europe-maven.pkg.dev/rapbattle-2cb96/android"
+            credentials {
+                username = "_json_key_base64"
+                password = "$artifactRegistryMavenSecret"
+            }
+            authentication {
+                basic(BasicAuthentication)
             }
         }
     }

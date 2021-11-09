@@ -13,13 +13,22 @@ buildscript {
     }
 }
 
-//plugins {
-//    id "maven-publish"
-//}
+plugins {
+    id "maven-publish"
+}
 
 allprojects {
     repositories {
-        maven { url "https://europe-maven.pkg.dev/rapbattle-2cb96/android-public" }
+        maven {
+            url "https://europe-maven.pkg.dev/rapbattle-2cb96/android"
+            credentials {
+                username = "_json_key_base64"
+                password = "$artifactRegistryMavenSecret"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
         mavenLocal()
         google()
         mavenCentral()

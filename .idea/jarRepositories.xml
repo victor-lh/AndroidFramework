@@ -41,5 +41,10 @@
       <option name="name" value="maven" />
       <option name="url" value="https://europe-maven.pkg.dev/rapbattle-2cb96/android-public" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://europe-maven.pkg.dev/rapbattle-2cb96/android" />
+    </remote-repository>
   </component>
 </project>
