@@ -1,18 +1,38 @@
 apply plugin: "maven-publish"
-apply plugin: "com.google.cloud.artifactregistry.gradle-plugin"
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
 
 publishing {
     repositories {
         maven {
-            url "artifactregistry://europe-maven.pkg.dev/rapbattle-2cb96/android-public"
+            url "https://europe-maven.pkg.dev/rapbattle-2cb96/android-public"
+            credentials {
+                username = "_json_key_base64"
+                password = properties.getProperty("artifactRegistryMavenSecret")
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
     }
     publications {
-        aar(MavenPublication) {
+        mavenJava(MavenPublication) {
             artifactId = artifact
             groupId = publishedGroupId
             version = libraryVersion
+            artifact(sourceJar)
             artifact("${buildDir}/outputs/aar/${artifact}-release.aar")
+
+            pom {
+                name = libraryName
+                description = libraryDescription
+            }
         }
     }
 }
