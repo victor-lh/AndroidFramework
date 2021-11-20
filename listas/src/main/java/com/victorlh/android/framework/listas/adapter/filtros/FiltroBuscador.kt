@@ -8,13 +8,13 @@ open class FiltroBuscador<T : ItemListaBuscador> : FiltroLista<T> {
     private var text: String? = null
 
     fun setText(text: String) {
-        this.text = text.toUpperCase(Locale.getDefault())
+        this.text = text.uppercase(Locale.getDefault())
     }
 
     override fun isDentroFiltro(elemento: T): Boolean {
         val textoBuscador = elemento.textoBuscador
         if (ToolsValidacion.isCadenaNoVacia(textoBuscador)) {
-            val upperCase = textoBuscador.toUpperCase(Locale.getDefault())
+            val upperCase = textoBuscador.uppercase(Locale.getDefault())
             return upperCase.contains(text!!)
         }
         return false
