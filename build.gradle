@@ -1,6 +1,6 @@
 buildscript {
 
-    ext.kotlin_version = '1.5.31'
+    ext.kotlin_version = '1.6.0'
 
     repositories {
         mavenLocal()
@@ -25,9 +25,6 @@ allprojects {
                 username = "_json_key_base64"
                 password = "$artifactRegistryMavenSecret"
             }
-            authentication {
-                basic(BasicAuthentication)
-            }
         }
         mavenLocal()
         google()
@@ -37,8 +34,8 @@ allprojects {
     tasks.withType(Javadoc) {
         excludes = ['**/*.kt'] // < ---- Exclude all kotlin files from javadoc file.
     }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    task deploy(type: GradleBuild) {
+        tasks = ['clean', 'assembleRelease', 'publish']
+    }
 }
