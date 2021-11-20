@@ -1,6 +1,7 @@
-package com.victorlh.framework.entorno.cargadapp
+package com.victorlh.android.framework.core.entorno.cargadapp
 
 import com.victorlh.android.framework.logger.Logger
+
 
 /**
  * @author Victor

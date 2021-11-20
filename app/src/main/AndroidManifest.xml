@@ -11,11 +11,12 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-		<activity android:name=".listas.simple.ListaSimpleActivity"></activity>
+		<activity android:name=".listas.simple.ListaSimpleActivity" />
 		<activity
 			android:name=".MainActivity"
 			android:label="@string/title_activity_main"
-			android:theme="@style/AppTheme.NoActionBar">
+			android:theme="@style/AppTheme.NoActionBar"
+			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

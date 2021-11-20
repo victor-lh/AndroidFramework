@@ -1,114 +1,35 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
+apply plugin: "maven-publish"
 
-group = publishedGroupId
-version = libraryVersion
-
-def pomConfig = {
-    licenses {
-        license {
-            name 'The Apache Software License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id 'victor-lh'
-            name 'VictorLH'
-            email 'victor-lh@github.com'
-        }
-    }
-    url 'https://github.com/victor-lh/AndroidFramework'
-
-    scm {
-        connection 'https://github.com/victor-lh/AndroidFramework.git'
-        developerConnection 'https://github.com/victor-lh/AndroidFramework.git'
-        url 'https://github.com/victor-lh/AndroidFramework'
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-            version libraryVersion
-
-            if (libraryName != null) {
-                name libraryName
-            }
-            description libraryDescription
-        }
-
-    }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
+task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
+    classifier "sources"
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = artifact
+            groupId = publishedGroupId
+            version = libraryVersion
+            artifact(sourceJar)
+            artifact("${buildDir}/outputs/aar/${artifact}-release.aar")
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-afterEvaluate {
-    publishing {
-        publications {
-            MyPublication(MavenPublication) {
-                from components.release
-                artifact sourcesJar
-                artifact javadocJar
-
-                groupId publishedGroupId
-                artifactId artifact
-                version libraryVersion
-                pom.withXml {
-                    def root = asNode()
-                    root.appendNode('description', libraryDescription)
-                    root.appendNode('name', libraryName)
-                    root.children().last() + pomConfig
-                }
+            pom {
+                name = libraryName
+                description = libraryDescription
             }
         }
     }
-}
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    publications = ['MyPublication']
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = 'https://github.com/victor-lh/AndroidFramework'
-        vcsUrl = 'https://github.com/victor-lh/AndroidFramework.git'
-        licenses = ["Apache-2.0"]
-        dryRun = false
-        publish = true
-        override = false
-        publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
+    repositories {
+        maven {
+            url "https://europe-maven.pkg.dev/rapbattle-2cb96/android"
+            credentials {
+                username = "_json_key_base64"
+                password = "$artifactRegistryMavenSecret"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
     }
 }
