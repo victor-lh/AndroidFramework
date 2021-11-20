@@ -25,6 +25,9 @@ allprojects {
                 username = "_json_key_base64"
                 password = "$artifactRegistryMavenSecret"
             }
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
         mavenLocal()
         google()
