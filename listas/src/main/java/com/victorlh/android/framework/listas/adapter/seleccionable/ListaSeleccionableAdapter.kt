@@ -6,7 +6,7 @@ import com.victorlh.android.framework.listas.adapter.ListaObservable
 import com.victorlh.android.framework.listas.adapter.seleccionable.ListaSeleccionable.*
 import java.util.*
 
-class ListaSeleccionableAdapter<T>(override val tipoSeleccion: ETipoSeleccion, val listaAdapter: AbstractLista<T>) : ListaSeleccionable<T> {
+open class ListaSeleccionableAdapter<T>(override val tipoSeleccion: ETipoSeleccion, val listaAdapter: AbstractLista<T>) : ListaSeleccionable<T> {
 
     private val observable = ListaSeleccionableObservable()
     private val seleccion = ArrayList<T>()
@@ -17,7 +17,7 @@ class ListaSeleccionableAdapter<T>(override val tipoSeleccion: ETipoSeleccion, v
     private val onItemDeseleccionadoListeners: MutableList<OnItemDeseleccionadoListener<T>> = ArrayList()
 
     init {
-        listaAdapter.removerObservable(observable)
+        listaAdapter.registrarObservable(observable)
     }
 
     override fun setSeleccion(items: Array<T>) {

@@ -30,12 +30,15 @@ abstract class AbstractPermisos protected constructor(val activity: Activity, va
 			return permisosNecesarios.toTypedArray()
 		}
 
-	fun tratarRespuestaPermisos(permissions: Array<String?>, grantResults: IntArray) {
+	val isPermisosConcedidos: Boolean
+		get() = permisosSinConceder.isEmpty()
+
+	fun tratarRespuestaPermisos(permissions: Array<String>, grantResults: IntArray) {
 		for (i in permissions.indices) {
 			tratrarPermiso(permissions[i], grantResults[i] == PackageManager.PERMISSION_GRANTED)
 		}
 	}
 
-	protected abstract fun tratrarPermiso(permiso: String?, aceptado: Boolean)
+	protected abstract fun tratrarPermiso(permiso: String, aceptado: Boolean)
 
 }

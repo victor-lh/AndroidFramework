@@ -1,23 +1,8 @@
-buildscript {
-    dependencies {
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-    }
-
-    repositories {
-        jcenter()
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-def version = "1.1.0"
+def version = "1.2.0"
 
 ext {
     bintrayRepo = 'maven'
@@ -26,32 +11,19 @@ ext {
     publishedGroupId = 'com.victorlh.android.framework'
     libraryName = 'Listas'
     artifact = 'listas'
+    libraryVersion = version
 
     libraryDescription = 'Framework de listas de Android'
 
-    siteUrl = 'https://github.com/victor-lh/AndroidFramework'
-    gitUrl = 'https://github.com/victor-lh/AndroidFramework.git'
-
-    libraryVersion = version
-
-    developerId = 'victor-lh'
-    developerName = 'VictorLH'
-    developerEmail = 'victor-lh@github.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName version
+        minSdkVersion 21
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -68,19 +40,23 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    api 'com.victorlh:JavaTools:1.3.0'
+    debugImplementation project(':logger')
+    releaseImplementation 'com.victorlh.android.framework:logger:1.4.0'
     debugApi project(':core')
-    releaseApi 'com.victorlh.android.framework:core:1.0.1'
+    releaseApi 'com.victorlh.android.framework:core:1.3.0'
 
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 
-    api "androidx.recyclerview:recyclerview:1.1.0"
+    api "androidx.recyclerview:recyclerview:1.2.1"
     api 'com.facebook.shimmer:shimmer:0.5.0' //Shimmer carga de elementos
 
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
 apply from: '../upload.gradle'

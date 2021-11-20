@@ -7,7 +7,7 @@ import java.util.*
  * 01/09/2018
  */
 interface IIdioma {
-    val codigoIdioma: String
-    val descripcionIdioma: String
-    val locale: Locale
+	val codigoIdioma: String
+	val descripcionIdioma: String
+	val locale: Locale
 }
