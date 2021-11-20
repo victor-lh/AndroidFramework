@@ -18,16 +18,16 @@ object Util
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 //TODO - Cambiar por una clase que controle los callback de la red {@link ConnectivityManager.NetworkCallback}
 fun isOnline(context: Context): Boolean {
-	val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-			?: return false
-	val netInfo = cm.activeNetworkInfo
-	return netInfo != null && netInfo.isConnected
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+            ?: return false
+    val netInfo = cm.activeNetworkInfo
+    return netInfo != null && netInfo.isConnected
 }
 
 fun Bitmap.toByteArray(): ByteArray {
-	val byteArrayOutputStream = ByteArrayOutputStream()
-	compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-	return byteArrayOutputStream.toByteArray()
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+    return byteArrayOutputStream.toByteArray()
 }
 
 /**
@@ -38,7 +38,7 @@ fun Bitmap.toByteArray(): ByteArray {
  * @return A float value to represent px equivalent to dp depending on device density
  */
 fun Util.convertDpToPixel(dp: Float, context: Context): Float {
-	return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }
 
 /**
@@ -49,7 +49,7 @@ fun Util.convertDpToPixel(dp: Float, context: Context): Float {
  * @return A float value to represent dp equivalent to px value
  */
 fun Util.convertPixelsToDp(px: Float, context: Context): Float {
-	return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
 }
 
 /**
@@ -61,14 +61,14 @@ fun Util.convertPixelsToDp(px: Float, context: Context): Float {
  * @param saturacion
  */
 fun ImageView.setSaturacionColorImagen(saturacion: Int) {
-	val matrix = ColorMatrix()
-	matrix.setSaturation(saturacion.toFloat())
-	val filter = ColorMatrixColorFilter(matrix)
-	colorFilter = filter
+    val matrix = ColorMatrix()
+    matrix.setSaturation(saturacion.toFloat())
+    val filter = ColorMatrixColorFilter(matrix)
+    colorFilter = filter
 }
 
-fun Util.getFrameVideo(context: Context, uri: Uri, timeMs: Int): Bitmap {
-	val retriever = MediaMetadataRetriever()
-	retriever.setDataSource(context, uri)
-	return retriever.getFrameAtTime(timeMs.toLong())
+fun Util.getFrameVideo(context: Context, uri: Uri, timeMs: Int): Bitmap? {
+    val retriever = MediaMetadataRetriever()
+    retriever.setDataSource(context, uri)
+    return retriever.getFrameAtTime(timeMs.toLong())
 }
